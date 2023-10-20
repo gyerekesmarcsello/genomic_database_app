@@ -28,7 +28,7 @@ A fájl tartalma:
 + COPY: a megadott create_fixtures.sql fájl egy adott mappában lévő fájlnak a létrehozott /docker-entrypoint-initb.d/ képbe történő másolására szolgál.
 A /docker-entrypoint-initb.d/ mappában lévő fájl másolása nagyon hasznos, mert lehetővé teszi számunkra néhány inicializáló SQL parancs indítását. Ebben az esetben úgy döntöttem, hogy létrehozok egy egyszerű táblázatot két mezővel (lásd alább).
 
-##Python Script:
+##  Python Script:
 Létrehozzuk az adatbázissal együttműködő Python szkriptet. A létrehozott szkript az app mappán belül található.
 ```
 import time
