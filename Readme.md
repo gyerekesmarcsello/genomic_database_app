@@ -1,16 +1,16 @@
-#Hogyan reprodukáljuk a database appot
+#  Hogyan reprodukáljuk a database appot
 
-##Setup:
+##  Setup:
 Előkövetelmény, hogy fel legyen telepíttve a DOcker Engine, és a Docker composite.
 Létre kell hozni egy projekt mappát. Ezt a következő parancsok futtatásával lehet megcsinálni:
-```s
+```
 $ mkdir docker_python_sql_tutorial
 $ cd docker_python_sql_tutorial
 $ mkdir app
 $ mkdir database
 ```
 
-##PostgreSQL:
+##  PostgreSQL:
 A PostgreSQL adatbázis Dockeren keresztül történő példányosításához a hivatalos image-et használunk. Ehhez a következő Dockerfile-t kell létrehozni az adatbázis mappán belül:
 ```
 FROM postgres:latest
