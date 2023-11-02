@@ -31,7 +31,7 @@ def load_csv_to_database():
         print(f"Data from {csv_file} inserted into table {table_name}.")
 
 # Function to load VCF files into the database
-def load_vcf_to_database():
+def load_vcf_to_database(vcf_folder_path, db):
     vcf_files = [file for file in os.listdir(vcf_folder_path) if file.endswith('.vcf')]
     for vcf_file in vcf_files:
         print(f"Processing {vcf_file}...")
@@ -42,8 +42,11 @@ def load_vcf_to_database():
             position = record.POS
             reference = record.REF
             alternate = ','.join(map(str, record.ALT))
-            data.append((chromosome, position, reference, alternate))
-        columns = ['chromosome', 'position', 'reference', 'alternate']
+            quality = record.QUAL
+            filters = ','.join(record.FILTER)
+            data.append((chromosome, position, reference, alternate, quality, filters, info))
+            
+        columns = ['chromosome', 'position', 'reference', 'alternate', 'quality', 'filters', 'info']
         df = pd.DataFrame(data, columns=columns)
         table_name = os.path.splitext(vcf_file)[0]
         df.to_sql(table_name, db, index=False, if_exists='replace')
