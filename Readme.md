@@ -1,7 +1,11 @@
 #  Hogyan reprodukáljuk a database appot
 
 ##  Setup:
-Előkövetelmény, hogy fel legyen telepíttve a DOcker Engine, és a Docker composite.
+Előkövetelmény, hogy fel legyen telepíttve a Docker Engine a kliens gépére.
+A dockert az alábbi linken lehet letölteni és telepíteni: https://www.docker.com/
+A futtatáshoz használt verzió a 24.0.
+
+
 Létre kell hozni egy projekt mappát. Ezt a következő parancsok futtatásával lehet megcsinálni:
 ```
 $ mkdir docker_python_sql_tutorial
@@ -91,4 +95,4 @@ Ebben két konténert deklarálunk az alkalmazásunkon belül:
 
 A szolgáltatások nevével értjük a db_host='db' az app.py-n belül , a Docker az, ami a két image közötti hálózatot kezeli indítás után, így a db-et az adatbázis szolgáltatás hostneveként fordítja le.
 
-Az utolsó parancs, ami ahhoz szükséges, hogy minden fusson, a docker-compose up - build. Ez felépíti a képeket, majd elindítja a konténereket.
+Az utolsó parancs, ami elindítsa a több-konténeres alkalmazásunkat, a docker compose up - build. Ez a parancs lehetővé teszi hogy egyszerre felépítse a kettő docker képfájlt és egy konténerként kezelje azokat.
