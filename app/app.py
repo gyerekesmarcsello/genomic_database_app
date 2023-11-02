@@ -44,8 +44,9 @@ def load_vcf_to_database(vcf_folder_path, db):
             alternate = ','.join(map(str, record.ALT))
             quality = record.QUAL
             filters = ','.join(record.FILTER)
+            info = record.INFO
             data.append((chromosome, position, reference, alternate, quality, filters, info))
-            
+
         columns = ['chromosome', 'position', 'reference', 'alternate', 'quality', 'filters', 'info']
         df = pd.DataFrame(data, columns=columns)
         table_name = os.path.splitext(vcf_file)[0]
