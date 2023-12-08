@@ -1,6 +1,6 @@
 sqlalchemy
 psycopg2
-PyVCF
+vcfpy
 numpy
 pandas
 tensorflow
