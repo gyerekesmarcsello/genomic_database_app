@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-import vcf
+import vcfpy
 
 # Function to export VCF files into a CSV file with 'info' column parsed
 def export_vcf_to_csv(vcf_folder_path, csv_export_path):
@@ -9,12 +9,12 @@ def export_vcf_to_csv(vcf_folder_path, csv_export_path):
     all_info_keys = set()  # Store all encountered info keys
     for vcf_file in vcf_files:
         print(f"Processing {vcf_file}...")
-        vcf_reader = vcf.Reader(filename=os.path.join(vcf_folder_path, vcf_file))
+        vcf_reader = vcfpy.Reader.from_path(os.path.join(vcf_folder_path, vcf_file))
         for record in vcf_reader:
             chromosome = record.CHROM
             position = record.POS
             reference = record.REF
-            alternate = ','.join(map(str, record.ALT))
+            alternate = ','.join(str(alt) for alt in record.ALT)
             quality = record.QUAL
             filters = ','.join(record.FILTER)
 
@@ -31,7 +31,6 @@ def export_vcf_to_csv(vcf_folder_path, csv_export_path):
     # Exporting to CSV with expanded 'info' columns
     df.to_csv(csv_export_path, index=False)
     print(f"All data from VCF files exported to CSV: {csv_export_path}")
-
 
 # Main function
 def main():
