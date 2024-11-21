@@ -1,98 +1,59 @@
-#  Hogyan reprodukáljuk a database appot
+# Genomic data management and processing
 
-##  Setup:
-Előkövetelmény, hogy fel legyen telepíttve a Docker Engine a kliens gépére.
-A dockert az alábbi linken lehet letölteni és telepíteni: https://www.docker.com/
-A futtatáshoz használt verzió a 24.0.
+## Overview
+This repository contains a Proof of Concept (POC) for [briefly describe your project, e.g., a data processing pipeline, a web application, etc.]. The primary goal of this POC is to explore the feasibility and demonstrate core functionalities that will be part of the finalized version of the project.
 
+## Important Notice
+Please note that this is a preliminary version of the project. The finalized version will differ significantly in terms of code structure, optimizations, and additional features.
 
-Létre kell hozni egy projekt mappát. Ezt a következő parancsok futtatásával lehet megcsinálni:
-```
-$ mkdir docker_python_sql_tutorial
-$ cd docker_python_sql_tutorial
-$ mkdir app
-$ mkdir database
-```
+## Features
+### Data Handling and Processing
+- Developed a comprehensive data processing system to handle large amounts of genomic data.
+- Utilized PostgreSQL for optimized data storage and retrieval.
 
-##  PostgreSQL:
-A PostgreSQL adatbázis Dockeren keresztül történő példányosításához a hivatalos image-et használunk. Ehhez a következő Dockerfile-t kell létrehozni az adatbázis mappán belül:
-```
-FROM postgres:latest
-ENV POSTGRES_PASSWORD=secret
-ENV POSTGRES_USER=username
-ENV POSTGRES_DB=database
-```
+### Docker Containerization
+- Containerized architecture using Docker to ensure consistent and reproducible environments.
+- Enabled data upload and database management in isolated containers for better stability.
 
-A fájl tartalma:
+### Scalable Infrastructure
+- The Docker setup is designed to be scalable, with Kubernetes or Docker Swarm proposed for future improvements.
+- Potential for load balancing and scaling using Kubernetes.
 
-+ FROM: ez az utasítás azt a image-t azonosítja, amelyből az új image-t szeretnénk létrehozni. A postgres:latest-et választotuk, ami a hivatalos Docker Image a latest címkével, ami a legújabb verziót jelenti.
-  
-+ ENV: ezzel az utasítással különböző környezeti változókat adhatunk meg. Ehhez az image-hez megadtuk a POSTGRES_PASSWORD, POSTGRES_USER, POSTGRES_DB környezeti változókat.
-  
-+ COPY: a megadott create_fixtures.sql fájl egy adott mappában lévő fájlnak a létrehozott /docker-entrypoint-initb.d/ képbe történő másolására szolgál.
-A /docker-entrypoint-initb.d/ mappában lévő fájl másolása nagyon hasznos, mert lehetővé teszi számunkra néhány inicializáló SQL parancs indítását. Ebben az esetben úgy döntöttem, hogy létrehozok egy egyszerű táblázatot két mezővel (lásd alább).
+### Machine Learning Integration
+- Applied various machine learning models on genomic data (VCF files) to determine their effectiveness.
+- Implemented hyperparameter optimization techniques like grid search and Bayesian optimization for model tuning.
+- Evaluated performance on genomic datasets and clinical datasets for model comparison.
 
-##  Python Script:
-Létrehozzuk az adatbázissal együttműködő Python szkriptet. A létrehozott szkript az app mappán belül található.
-```
-import time
-import random
+### Optimization Techniques
+- Improved database query performance using indexing, optimized joins, and block-based techniques.
+- Compared unoptimized and optimized query execution times.
 
-from sqlalchemy import create_engine
+### Testing Environment
+- Employed Python scripts for data cleaning and uploading.
+- Divided datasets into training and testing subsets for accurate performance evaluation.
 
-db_name = 'database'
-db_user = 'username'
-db_pass = 'secret'
-db_host = 'db'
-db_port = '5432'
+## Future Work
+### Further Improvements
+- Recommendations include advanced imputation methods for missing data, enhancing system scalability, and creating a user-friendly web interface for the model.
+- Future development aims for better container orchestration using Kubernetes and potential web-based interfaces for ease of use.
 
-# Connect to the database
-db_string = 'postgresql://{}:{}@{}:{}/{}'.format(db_user, db_pass, db_host, db_port, db_name)
-db = create_engine(db_string)
+## Usage
+1. Clone the repository:
+   ```
+   git clone https://github.com/yourusername/your-repository.git
+   ```
+2. Install dependencies:
+   ```
+   [Add installation steps, e.g., npm install or pip install -r requirements.txt]
+   ```
+3. Run the POC:
+   ```
+   [Add steps to run the project]
+   ```
 
-```
+## Disclaimer
+This POC is intended for testing and demonstration purposes only.
 
-Következőt csinálja a script:
+---
+For questions or suggestions, please contact marcell.lenkei@gmail.com.
 
-+  Az SQLAlchemy számára szükséges kapcsolati karakterlánc létrehozásához szükséges paraméterek határozza meg, amely lehetővé teszi számunkra, hogy kapcsolatot létesítsünk a PostgreSQL-hez. Mint látható, a db_name, db_user, db_pass ugyanazok, amelyeket korábban a PostgreSQL Dockerfile-ban környezeti változóként jeleztünk. A db_host változót később fogjuk elmagyarázni, a db_port pedig az alapértelmezett PostgreSQL port.
-
-## Ahhoz, hogy a python szkript működjön, a requirements.txt fájlban megadtuk a függőségeket.
-
-A következők szoftverek és csomagok szükségesek a rekreációhoz:
-
-+  Python 3.8
-+  Docker
-+  sqlalchemy,psycopg2,PyVCF,numpy,pandas,tensorflow,scikit-learn,umap,statsmodels,pyearth,xgboost,lightgbm,catboost,matplotlib,minisom python csomagok.
-
-## Létrehozunk egy Docker-képet a Dockerfile-on keresztül az app mappán belül.
-
-```
-FROM python:latest
-WORKDIR /code
-ADD requirements.txt requirements.txt
-RUN pip install -r requirements.txt
-COPY app.py app.py
-CMD ["python", "-u", "app.py"]
-```
-
-## A Docker Image és a script együtműködése
-
-A bemutató utolsó lépése az általunk készített két kép egyesítése. Ennek legelegánsabb módja, ha létrehozunk egy docker-compose.yml fájlt a projekt gyökerében.
-
-```
-version: "3.8"
-services:
-  app :
-    build: ./app/
-  db:
-    build: ./database/
-```
-
-Ebben két konténert deklarálunk az alkalmazásunkon belül:
-
-    app: az, amelyik a /app/Dockerfile-ban van definiálva.
-    db: az, amelyik a /database/Dockerfile-ban található.
-
-A szolgáltatások nevével értjük a db_host='db' az app.py-n belül , a Docker az, ami a két image közötti hálózatot kezeli indítás után, így a db-et az adatbázis szolgáltatás hostneveként fordítja le.
-
-Az utolsó parancs, ami elindítsa a több-konténeres alkalmazásunkat, a docker compose up - build. Ez a parancs lehetővé teszi hogy egyszerre felépítse a kettő docker képfájlt és egy konténerként kezelje azokat.

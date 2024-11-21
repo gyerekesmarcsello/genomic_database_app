@@ -1,0 +1,1 @@
+all_effects,Transcript_ID,Gene,Feature,Feature_type,Consequence,SIFT,PolyPhen,DOMAINS,CLIN_SIG,PHENO,gnomAd0-n
