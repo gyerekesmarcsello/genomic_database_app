@@ -37,20 +37,6 @@ Please note that this is a preliminary version of the project. The finalized ver
 - Recommendations include advanced imputation methods for missing data, enhancing system scalability, and creating a user-friendly web interface for the model.
 - Future development aims for better container orchestration using Kubernetes and potential web-based interfaces for ease of use.
 
-## Usage
-1. Clone the repository:
-   ```
-   git clone https://github.com/yourusername/your-repository.git
-   ```
-2. Install dependencies:
-   ```
-   [Add installation steps, e.g., npm install or pip install -r requirements.txt]
-   ```
-3. Run the POC:
-   ```
-   [Add steps to run the project]
-   ```
-
 ## Disclaimer
 This POC is intended for testing and demonstration purposes only.
 
