@@ -1,5 +1,8 @@
 # Genomic data management and processing
 
+## UPDATE
+2025.03.03 - Due to university policy, the data required for recreation has been removed from the repository
+
 ## Overview
 This repository contains a Proof of Concept (POC) for [briefly describe your project, e.g., a data processing pipeline, a web application, etc.]. The primary goal of this POC is to explore the feasibility and demonstrate core functionalities that will be part of the finalized version of the project.
 
